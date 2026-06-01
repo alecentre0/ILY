@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Configurazione della pagina web
-st.set_page_config(page_title="Verifica Ufficiale per vedere se sei veramente la mia P", page_icon="PATA", layout="centered")
+st.set_page_config(page_title="TI AMO", page_icon="PATA", layout="centered")
 
 # --- ZONA DI CONFIGURAZIONE IMMAGINI ESTERNE ---
 URL_SFONDO_INTRO = "https://i.etsystatic.com/20432923/r/il/7f58db/3960105404/il_570xN.3960105404_ilu4.jpg" 
@@ -246,8 +246,7 @@ if st.session_state.fase_sistema == 'INTRO':
     
     st.markdown(
         """
-        # Test per essere la mia sola e unica P
-        ---
+        # Test di verifica per dimostrare di essere la mia sola e unica P eheh
         **Attenzione:** Accesso a un'area altamente riservata ai soli P.
         
         Per sbloccare il modulo successivo è necessario dimostrare di essere una vera P. Un errore comporterà 
