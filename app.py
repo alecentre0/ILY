@@ -251,7 +251,7 @@ quiz_data = [
         "domanda": "e e e e e e quanto mi ami ?",
         "opzioni": ["tanto", "tantissimo", "TANTISSIMOOOOO", "TANTISSIMO DA MORIREEEEE E PIU DI TE PPP"],
         "risposta_corretta": "TANTISSIMO DA MORIREEEEE E PIU DI TE PPP",
-        "messaggio_err": "NON SCRIVO NEANCHE NIENTE QUA SO CHE SEI TORNATA INDIETRO PER VEDERE EHEHEHEH"
+        "messaggio_err": "NON SCRIVO NIENTE QUA, SO CHE HAI SBAGLIATO APPOSTA PER VEDERE EHEHEHEH"
     }
 ]
 
@@ -272,7 +272,7 @@ if st.session_state.fase_sistema == 'INTRO':
         """
     )
     
-    if st.button("Pronta!"):
+    if st.button("SEI PERFETTA P"):
         st.session_state.fase_sistema = 'PLAYING'
         st.rerun()
 
