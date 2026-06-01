@@ -16,7 +16,7 @@ if 'current_index' not in st.session_state:
 
 # 2. DEFINIZIONE DEI FOGLI DI STILE (CSS DINAMICO AVANZATO)
 
-# CSS per la schermata Iniziale e Finale (Inalterato)
+# CSS per la schermata Iniziale e Finale (Pulsante a Cuore CENTRATO)
 css_intro = f"""
 <style>
 .stApp {{
@@ -38,7 +38,7 @@ css_intro = f"""
     color: #333333 !important;
 }}
 [data-testid="stMarkdownContainer"] h1 {{
-    font-size: 2.5rem !important;
+    font-size: 2.2rem !important;
     color: #ff66b2 !important;
     margin-bottom: 10px !important;
 }}
@@ -46,41 +46,66 @@ css_intro = f"""
     font-size: 1.8rem !important;
     color: #ff66b2 !important;
 }}
+
+/* PULSANTE A CUORE CENTRATO (Senza quadratino fantasma) */
 div.stButton {{
-    display: flex !important;
-    justify-content: center !important;
+    display: block !important;
     width: 100% !important;
+    background-color: transparent !important;
+}}
+div.stButton > button * {{
+    background-color: transparent !important;
+    box-shadow: none !important;
 }}
 div.stButton > button {{
-    display: block !important;
-    margin: 20px 0 0 0 !important;
-    background-color: #ffffff !important;
-    color: #ff66b2 !important;
-    border: 2px solid #ffb3d9 !important;
-    border-radius: 12px !important;
-    padding: 10px 25px !important;
-    font-size: 1rem !important; 
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 20px auto 10px auto !important; /* CENTRATO */
+    background-color: #ff66b2 !important;
+    color: #ffffff !important;
+    font-size: 1.4rem !important;
     font-weight: bold !important;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+    width: 140px !important;
+    height: 130px !important;
     cursor: pointer !important;
-    width: fit-content !important; 
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    
+    border: none !important;
+    border-radius: 0 !important; 
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 0 12px 0 !important;
+    
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") !important;
+    -webkit-mask-size: 100% 100% !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") !important;
+    mask-size: 100% 100% !important;
+    mask-repeat: no-repeat !important;
+    mask-position: center !important;
+    
+    filter: drop-shadow(0px 6px 8px rgba(255, 102, 178, 0.4)) !important;
+}}
+div.stButton > button:focus,
+div.stButton > button:active {{
+    box-shadow: none !important;
+    outline: none !important;
+    border: none !important;
+    background-color: #ff007f !important;
+    color: #ffffff !important;
 }}
 div.stButton > button:hover {{
-    transform: translateY(-5px) !important;
-    box-shadow: 0 8px 16px rgba(255, 179, 217, 0.6) !important;
-    background-color: #fff0f5 !important;
-    border-color: #ff66b2 !important;
-}}
-div.stButton > button:active {{
-    transform: scale(0.95) !important;
-    background-color: #ffb3d9 !important;
-    color: #ffffff !important;
+    transform: translateY(-5px) scale(1.05) !important;
+    background-color: #ff3399 !important;
+    box-shadow: none !important;
+    filter: drop-shadow(0px 12px 15px rgba(255, 51, 153, 0.6)) !important;
 }}
 </style>
 """
 
-# CSS per la fase di Gioco
+# CSS per la fase di Gioco (Pulsante a Cuore NON CENTRATO)
 css_gioco = f"""
 <style>
 .stApp {{
@@ -144,24 +169,21 @@ div.stRadio > div[role="radiogroup"] > label:focus-within {{
     border-color: #ff66b2 !important;
 }}
 
-/* PULSANTE "INVIA" A FORMA DI CUORE (NON CENTRATO E SENZA QUADRATI NATIIVI) */
+/* PULSANTE "INVIA" A FORMA DI CUORE (NON CENTRATO E SENZA QUADRATI NATIVI) */
 div.stButton {{
     display: block !important;
     width: 100% !important;
     background-color: transparent !important;
 }}
-
-/* Rimozione forzata degli stili da eventuali elementi annidati */
 div.stButton > button * {{
     background-color: transparent !important;
     box-shadow: none !important;
 }}
-
 div.stButton > button {{
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    margin: 20px 0 10px 0 !important; 
+    margin: 20px 0 10px 0 !important; /* NON CENTRATO (Allineato a sinistra nativamente) */
     background-color: #ff66b2 !important;
     color: #ffffff !important;
     font-size: 1.4rem !important;
@@ -171,14 +193,12 @@ div.stButton > button {{
     cursor: pointer !important;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     
-    /* Azzeramento rigoroso del quadrato di base */
     border: none !important;
     border-radius: 0 !important; 
     box-shadow: none !important;
     outline: none !important;
     padding: 0 0 12px 0 !important;
     
-    /* Iniezione della maschera vettoriale */
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") !important;
     -webkit-mask-size: 100% 100% !important;
     -webkit-mask-repeat: no-repeat !important;
@@ -188,11 +208,8 @@ div.stButton > button {{
     mask-repeat: no-repeat !important;
     mask-position: center !important;
     
-    /* Ombreggiatura adattata al poligono */
     filter: drop-shadow(0px 6px 8px rgba(255, 102, 178, 0.4)) !important;
 }}
-
-/* Disattivazione del rettangolo di selezione al click */
 div.stButton > button:focus,
 div.stButton > button:active {{
     box-shadow: none !important;
@@ -201,11 +218,10 @@ div.stButton > button:active {{
     background-color: #ff007f !important;
     color: #ffffff !important;
 }}
-
 div.stButton > button:hover {{
     transform: translateY(-5px) scale(1.05) !important;
     background-color: #ff3399 !important;
-    box-shadow: none !important; /* Previene il ritorno dell'ombra quadrata */
+    box-shadow: none !important; 
     filter: drop-shadow(0px 12px 15px rgba(255, 51, 153, 0.6)) !important;
 }}
 </style>
@@ -221,7 +237,7 @@ quiz_data = [
     },
     {
         "domanda": "Quale film stavamo guardando alla casina la prima volta ?",
-        "opzioni": ["Jurassic World - La Rinascita", "Zootropolis", "Il Signore degli Anelli", "Matrix"],
+        "opzioni": ["Avatar", "Zootropolis", "Jurassic World - La Rinascita", "Matrix"],
         "risposta_corretta": "Jurassic World - La Rinascita",
         "messaggio_err": "E CON CHI ERI ALLORA ??? SEI LA MIA P"
     },
@@ -247,19 +263,18 @@ if st.session_state.fase_sistema == 'INTRO':
     st.markdown(
         """
         # Test di verifica per dimostrare di essere la mia sola e unica P eheh
+        ---
         **Attenzione:** Accesso a un'area altamente riservata ai soli P.
         
-        Per sbloccare il modulo successivo è necessario dimostrare di essere una vera P. Un errore comporterà 
-        il blocco del terminale fino all'inserimento del parametro corretto (E UNA BELLA SGRIDATA!!!!).
+        Per sbloccare il modulo successivo è necessario dimostrare di essere una vera P. Un errore comporterà UNA BELLA SGRIDATA!!!!
         ---
+        *Sei pronta a dimostrare di essere la vera P?*
         """
     )
     
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        if st.button("Pronta a dimostrare di essere la vera P ?"):
-            st.session_state.fase_sistema = 'PLAYING'
-            st.rerun()
+    if st.button("Pronta!"):
+        st.session_state.fase_sistema = 'PLAYING'
+        st.rerun()
 
 
 elif st.session_state.fase_sistema == 'PLAYING':
@@ -272,7 +287,6 @@ elif st.session_state.fase_sistema == 'PLAYING':
         
         scelta = st.radio("Seleziona la risposta:", q_data["opzioni"], index=None, label_visibility="collapsed")
         
-        # Pulsante INVIA (ora è a forma di cuore puro)
         if st.button("Invia"):
             if scelta == q_data["risposta_corretta"]:
                 st.success("SIIIIIIIIIII")
@@ -332,12 +346,11 @@ elif st.session_state.fase_sistema == 'END':
         
         Amo tutto di te, sei la cosa più bella che mi sia mai successa. **TI AMO AMORE MIO** 🩷
         ---
+        *Vuoi riavviare pure P? (Mi ricorderò se lo fai perché hai sbagliato qualcosaaa !!!)*
         """
     )
     
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        if st.button("Riavvia pure P"):
-            st.session_state.fase_sistema = 'INTRO'
-            st.session_state.current_index = 0
-            st.rerun()
+    if st.button("Riavvia P"):
+        st.session_state.fase_sistema = 'INTRO'
+        st.session_state.current_index = 0
+        st.rerun()
