@@ -15,13 +15,12 @@ if 'current_index' not in st.session_state:
 
 # 2. DEFINIZIONE DEI FOGLI DI STILE (CSS DINAMICO AVANZATO)
 
-# CSS per la schermata Iniziale e Finale (Centrata e pulita)
+# CSS per la schermata Iniziale e Finale
 css_intro = """
 <style>
 .stApp {
     background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
 }
-/* Centratura generale dei testi */
 [data-testid="stMarkdownContainer"] {
     background-color: rgba(255, 255, 255, 0.85);
     padding: 25px;
@@ -29,7 +28,6 @@ css_intro = """
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     text-align: center;
 }
-/* Centratura del pulsante di avvio */
 div.stButton > button {
     display: block;
     margin: 0 auto;
@@ -37,10 +35,10 @@ div.stButton > button {
 </style>
 """
 
-# CSS per la fase di Gioco (Sfondo da URL e UI personalizzata)
+# CSS per la fase di Gioco
 css_gioco = f"""
 <style>
-/* 1. Sfondo esterno con adattamento automatico */
+/* 1. Sfondo esterno */
 .stApp {{
     background-image: url("{URL_SFONDO}");
     background-size: cover;
@@ -48,7 +46,7 @@ css_gioco = f"""
     background-attachment: fixed;
 }}
 
-/* 2. Contenitore delle domande centrato */
+/* 2. Contenitore della domanda */
 [data-testid="stMarkdownContainer"] {{
     background-color: rgba(255, 255, 255, 0.85);
     padding: 20px;
@@ -57,56 +55,68 @@ css_gioco = f"""
     box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }}
 
-/* 3. Layout delle opzioni (Allineamento a colonna centrata) */
+/* 3. Layout del gruppo di opzioni */
 div.stRadio > div[role="radiogroup"] {{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 16px; 
     margin-top: 20px;
 }}
 
-/* 4. Il blocco dell'opzione (La "Card") */
+/* 4. Geometria del blocco interattivo (Card espansa) */
 div.stRadio > div[role="radiogroup"] > label {{
     background-color: #ffffff !important;
     border: 2px solid #ffb3d9 !important;
-    border-radius: 12px !important;
-    padding: 15px 30px !important;
-    width: 85% !important;
+    border-radius: 15px !important;
+    padding: 22px 20px !important; 
+    width: 100% !important; 
     cursor: pointer !important;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
     display: flex !important;
-    justify-content: center !important;
+    justify-content: center !important; 
+    align-items: center !important; 
 }}
 
-/* Annulla gli stili di default interni alle card per evitare bug grafici */
+/* 5. Override dei contenitori di testo interni per forzare la centratura */
 div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContainer"] {{
     background-color: transparent !important;
     box-shadow: none !important;
     padding: 0 !important;
+    width: 100% !important;
+    text-align: center !important;
 }}
 
-/* 5. Rimozione fisica del pallino radio nativo */
+/* 6. Formattazione tipografica (TESTO INGRANDITO) */
+div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContainer"] p {{
+    font-size: 1.65rem !important; /* Dimensione aumentata in modo significativo */
+    font-weight: 700 !important; /* Spessore del carattere incrementato (Bold) */
+    margin: 0 !important;
+    text-align: center !important; 
+    color: #2c3e50 !important;
+}}
+
+/* 7. Rimozione fisica del pallino radio nativo */
 div.stRadio > div[role="radiogroup"] > label > div:first-child {{
     display: none !important;
 }}
 
-/* 6. Animazione di sollevamento al passaggio del mouse (Hover) */
+/* 8. Cinematica di sollevamento (Hover) */
 div.stRadio > div[role="radiogroup"] > label:hover {{
-    transform: translateY(-6px) !important;
-    box-shadow: 0 10px 20px rgba(255, 179, 217, 0.6) !important;
+    transform: translateY(-8px) !important; 
+    box-shadow: 0 12px 24px rgba(255, 179, 217, 0.6) !important;
     background-color: #fff0f5 !important;
 }}
 
-/* 7. Colore Rosa quando il blocco viene selezionato (Focus/Active) */
+/* 9. Feedback visivo di selezione (Focus) */
 div.stRadio > div[role="radiogroup"] > label:focus-within {{
     background-color: #ffb3d9 !important;
-    transform: scale(1.02) !important;
+    transform: scale(1.03) !important;
     border-color: #ff66b2 !important;
 }}
 
-/* 8. Stile e centratura del pulsante di invio */
+/* 10. Pulsante di invio dati */
 div.stButton > button {{
     display: block;
     margin: 30px auto 10px auto;
@@ -114,7 +124,8 @@ div.stButton > button {{
     color: #333333;
     border: none;
     border-radius: 8px;
-    padding: 10px 30px;
+    padding: 12px 35px;
+    font-size: 1.1rem;
     font-weight: bold;
     transition: all 0.2s ease;
 }}
@@ -184,7 +195,6 @@ elif st.session_state.fase_sistema == 'PLAYING':
     if st.session_state.current_index < len(quiz_data):
         q_data = quiz_data[st.session_state.current_index]
         
-        st.subheader(f"Livello {st.session_state.current_index + 1} di {len(quiz_data)}")
         st.write(f"### {q_data['domanda']}")
         
         scelta = st.radio("Seleziona la risposta:", q_data["opzioni"], index=None, label_visibility="collapsed")
