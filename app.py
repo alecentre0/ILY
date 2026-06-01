@@ -42,6 +42,7 @@ css_gioco = """
 
 # 3. VETTORE DEI DATI (DOMANDE E PARAMETRI DI GIOCO)
 quiz_data = [
+   
     {
         "domanda": "Dove mi sono innamorato dei tuoi occhi per la prima volta?",
         "opzioni": ["Sul Treno", "Al Patù", "Al PN", "Alla Casina"],
