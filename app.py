@@ -28,9 +28,32 @@ css_intro = """
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     text-align: center;
 }
+
+/* Nuova Dinamica Pulsanti (Sincronizzata con le risposte) */
 div.stButton > button {
-    display: block;
-    margin: 0 auto;
+    display: block !important;
+    margin: 20px auto 0 auto !important;
+    background-color: #ffffff !important;
+    color: #ff66b2 !important;
+    border: 2px solid #ffb3d9 !important;
+    border-radius: 15px !important;
+    padding: 15px 40px !important;
+    font-size: 1.2rem !important;
+    font-weight: bold !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+    cursor: pointer !important;
+}
+div.stButton > button:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 12px 24px rgba(255, 179, 217, 0.6) !important;
+    background-color: #fff0f5 !important;
+    border-color: #ff66b2 !important;
+}
+div.stButton > button:active {
+    transform: scale(0.95) !important;
+    background-color: #ffb3d9 !important;
+    color: #ffffff !important;
 }
 </style>
 """
@@ -40,7 +63,7 @@ css_gioco = f"""
 <style>
 /* 1. Sfondo esterno */
 .stApp {{
-    background-image: url("https://img.freepik.com/vettori-gratuito/vector-il-giorno-di-san-valentino-sfondo-rosa-senza-soluzione-di-continuita-con-un-motivo-a-forma-di-cuore-ripetibile-orizzontalmente_8130-1838.jpg?semt=ais_hybrid&w=740&q=80");
+    background-image: url("{URL_SFONDO}");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -90,8 +113,8 @@ div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContaine
 
 /* 6. Formattazione tipografica (TESTO INGRANDITO) */
 div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContainer"] p {{
-    font-size: 1.45rem !important; /* Dimensione aumentata in modo significativo */
-    font-weight: 600 !important; /* Spessore del carattere incrementato (Bold) */
+    font-size: 1.65rem !important; 
+    font-weight: 700 !important; 
     margin: 0 !important;
     text-align: center !important; 
     color: #2c3e50 !important;
@@ -102,7 +125,7 @@ div.stRadio > div[role="radiogroup"] > label > div:first-child {{
     display: none !important;
 }}
 
-/* 8. Cinematica di sollevamento (Hover) */
+/* 8. Cinematica di sollevamento per le risposte (Hover) */
 div.stRadio > div[role="radiogroup"] > label:hover {{
     transform: translateY(-8px) !important; 
     box-shadow: 0 12px 24px rgba(255, 179, 217, 0.6) !important;
@@ -116,22 +139,34 @@ div.stRadio > div[role="radiogroup"] > label:focus-within {{
     border-color: #ff66b2 !important;
 }}
 
-/* 10. Pulsante di invio dati */
+/* 10. Dinamica del Pulsante di invio dati (Allineata alla logica delle risposte) */
 div.stButton > button {{
-    display: block;
-    margin: 30px auto 10px auto;
-    background-color: #ffb3d9;
-    color: #333333;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 35px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    transition: all 0.2s ease;
+    display: block !important;
+    margin: 30px auto 10px auto !important;
+    background-color: #ffffff !important;
+    color: #ff66b2 !important;
+    border: 2px solid #ffb3d9 !important;
+    border-radius: 15px !important;
+    padding: 15px 40px !important;
+    font-size: 1.2rem !important;
+    font-weight: bold !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+    cursor: pointer !important;
 }}
+
 div.stButton > button:hover {{
-    background-color: #ff99cc;
-    color: white;
+    transform: translateY(-8px) !important;
+    box-shadow: 0 12px 24px rgba(255, 179, 217, 0.6) !important;
+    background-color: #fff0f5 !important;
+    border-color: #ff66b2 !important;
+}}
+
+/* Effetto di compressione durante il click effettivo */
+div.stButton > button:active {{
+    transform: scale(0.95) !important;
+    background-color: #ffb3d9 !important;
+    color: #ffffff !important;
 }}
 </style>
 """
