@@ -3,6 +3,27 @@ import streamlit as st
 # Configurazione della pagina web
 st.set_page_config(page_title="Sistema di Verifica", page_icon="🔒", layout="centered")
 
+# --- INIZIO INIEZIONE CSS PER BACKGROUND ---
+st.markdown(
+    """
+    <style>
+    /* Applica lo sfondo all'intero container dell'applicazione */
+    .stApp {
+        background-color: #ffe6f2; /* Colore di base rosa pastello */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffb3d9' opacity='0.6' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+    }
+    
+    /* Applica un bordo semi-trasparente ai contenitori di testo per mantenere la leggibilità */
+    [data-testid="stMarkdownContainer"] {
+        background-color: rgba(255, 255, 255, 0.6);
+        padding: 10px;
+        border-radius: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+# --- FINE INIEZIONE CSS ---
 # 1. INIZIALIZZAZIONE DELLE VARIABILI DI STATO
 if 'current_index' not in st.session_state:
     st.session_state.current_index = 0
