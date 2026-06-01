@@ -6,7 +6,7 @@ st.set_page_config(page_title="Verifica Ufficiale per vedere se sei veramente la
 # --- ZONA DI CONFIGURAZIONE IMMAGINI ESTERNE ---
 # Inserisci i link alle immagini. DEVONO finire in .jpg, .png o formati compatibili diretti.
 URL_SFONDO_INTRO = "https://i.etsystatic.com/20432923/r/il/7f58db/3960105404/il_570xN.3960105404_ilu4.jpg" # Sfondo per l'inizio e la fine
-URL_SFONDO_GIOCO = "https://img.freepik.com/vettori-gratuito/tema-di-san-valentino-con-cuori-rosa-su-sfondo-rosa_1308-37915.jpg" # Sfondo per le domande
+URL_SFONDO_GIOCO = "https://cdn.shopify.com/s/files/1/1619/4221/files/BH1046834U_69a21a13-c8c4-4a72-b97d-43557ca430f9.jpg?v=1739171598" # Sfondo per le domande
 # -----------------------------------------------
 
 # 1. INIZIALIZZAZIONE DELLA MACCHINA A STATI
@@ -17,7 +17,7 @@ if 'current_index' not in st.session_state:
 
 # 2. DEFINIZIONE DEI FOGLI DI STILE (CSS DINAMICO AVANZATO)
 
-# CSS per la schermata Iniziale e Finale (Convertito in f-string per iniettare l'immagine)
+# CSS per la schermata Iniziale e Finale
 css_intro = f"""
 <style>
 .stApp {{
@@ -51,7 +51,7 @@ css_intro = f"""
     color: #ff66b2 !important;
 }}
 
-/* Dinamica Pulsanti Intro (Più piccolo e centrato con Flexbox) */
+/* Dinamica Pulsanti Intro (Adattati alla colonna centrale) */
 div.stButton {{
     display: flex !important;
     justify-content: center !important;
@@ -70,7 +70,7 @@ div.stButton > button {{
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
     cursor: pointer !important;
-    width: fit-content !important; 
+    width: 100% !important; 
 }}
 div.stButton > button:hover {{
     transform: translateY(-5px) !important;
@@ -86,7 +86,7 @@ div.stButton > button:active {{
 </style>
 """
 
-# CSS per la fase di Gioco (Pulsante Invia Dati mantenuto grande)
+# CSS per la fase di Gioco
 css_gioco = f"""
 <style>
 /* 1. Sfondo esterno */
@@ -167,7 +167,7 @@ div.stRadio > div[role="radiogroup"] > label:focus-within {{
     border-color: #ff66b2 !important;
 }}
 
-/* 10. Pulsante di invio dati (Grande) */
+/* 10. Pulsante di invio dati */
 div.stButton {{
     display: flex !important;
     justify-content: center !important;
@@ -186,7 +186,7 @@ div.stButton > button {{
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
     cursor: pointer !important;
-    width: fit-content !important;
+    width: 100% !important;
 }}
 div.stButton > button:hover {{
     transform: translateY(-8px) !important;
@@ -247,9 +247,12 @@ if st.session_state.fase_sistema == 'INTRO':
         """
     )
     
-    if st.button("Pronta a dimostrare di essere la vera P ?"):
-        st.session_state.fase_sistema = 'PLAYING'
-        st.rerun()
+    # Implementazione griglia invisibile per centrare perfettamente il pulsante
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("Pronta a dimostrare di essere la vera P ?"):
+            st.session_state.fase_sistema = 'PLAYING'
+            st.rerun()
 
 
 elif st.session_state.fase_sistema == 'PLAYING':
@@ -262,17 +265,20 @@ elif st.session_state.fase_sistema == 'PLAYING':
         
         scelta = st.radio("Seleziona la risposta:", q_data["opzioni"], index=None, label_visibility="collapsed")
         
-        if st.button("Invia Dati"):
-            if scelta == q_data["risposta_corretta"]:
-                st.success("SIIIIIIIIIII")
-                st.session_state.current_index += 1
-                
-                if st.session_state.current_index == len(quiz_data):
-                    st.session_state.fase_sistema = 'END'
-                
-                st.rerun()
-            else:
-                st.error(q_data["messaggio_err"])
+        # Implementazione griglia invisibile per centrare perfettamente il pulsante
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            if st.button("Invia Dati"):
+                if scelta == q_data["risposta_corretta"]:
+                    st.success("SIIIIIIIIIII")
+                    st.session_state.current_index += 1
+                    
+                    if st.session_state.current_index == len(quiz_data):
+                        st.session_state.fase_sistema = 'END'
+                    
+                    st.rerun()
+                else:
+                    st.error(q_data["messaggio_err"])
 
 
 elif st.session_state.fase_sistema == 'END':
@@ -326,7 +332,10 @@ elif st.session_state.fase_sistema == 'END':
         """
     )
     
-    if st.button("Riavvia pure P (mi ricorderò se lo fai perche hai sbagliato qualcosaaa !!!)"):
-        st.session_state.fase_sistema = 'INTRO'
-        st.session_state.current_index = 0
-        st.rerun()
+    # Implementazione griglia invisibile per centrare perfettamente il pulsante
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("Riavvia pure P (mi ricorderò se lo fai perche hai sbagliato qualcosaaa !!!)"):
+            st.session_state.fase_sistema = 'INTRO'
+            st.session_state.current_index = 0
+            st.rerun()
