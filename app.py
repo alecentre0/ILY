@@ -338,7 +338,7 @@ elif st.session_state.fase_sistema == 'END':
     
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        if st.button("Riavvia pure P (mi ricorderò se lo fai perche hai sbagliato qualcosaaa !!!)"):
+        if st.button("Riavvia pure P"):
             st.session_state.fase_sistema = 'INTRO'
             st.session_state.current_index = 0
             st.rerun()
