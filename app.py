@@ -40,7 +40,7 @@ css_gioco = f"""
 <style>
 /* 1. Sfondo esterno */
 .stApp {{
-    background-image: url("{URL_SFONDO}");
+    background-image: url("https://img.freepik.com/vettori-gratuito/vector-il-giorno-di-san-valentino-sfondo-rosa-senza-soluzione-di-continuita-con-un-motivo-a-forma-di-cuore-ripetibile-orizzontalmente_8130-1838.jpg?semt=ais_hybrid&w=740&q=80");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -90,8 +90,8 @@ div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContaine
 
 /* 6. Formattazione tipografica (TESTO INGRANDITO) */
 div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContainer"] p {{
-    font-size: 1.65rem !important; /* Dimensione aumentata in modo significativo */
-    font-weight: 700 !important; /* Spessore del carattere incrementato (Bold) */
+    font-size: 1.45rem !important; /* Dimensione aumentata in modo significativo */
+    font-weight: 600 !important; /* Spessore del carattere incrementato (Bold) */
     margin: 0 !important;
     text-align: center !important; 
     color: #2c3e50 !important;
