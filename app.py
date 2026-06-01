@@ -4,9 +4,8 @@ import streamlit as st
 st.set_page_config(page_title="Verifica Ufficiale per vedere se sei veramente la mia P", page_icon="PATA", layout="centered")
 
 # --- ZONA DI CONFIGURAZIONE IMMAGINI ESTERNE ---
-# Inserisci i link alle immagini. DEVONO finire in .jpg, .png o formati compatibili diretti.
-URL_SFONDO_INTRO = "https://i.etsystatic.com/20432923/r/il/7f58db/3960105404/il_570xN.3960105404_ilu4.jpg" # Sfondo per l'inizio e la fine
-URL_SFONDO_GIOCO = "https://cdn.shopify.com/s/files/1/1619/4221/files/BH1046834U_69a21a13-c8c4-4a72-b97d-43557ca430f9.jpg?v=1739171598" # Sfondo per le domande
+URL_SFONDO_INTRO = "https://i.etsystatic.com/20432923/r/il/7f58db/3960105404/il_570xN.3960105404_ilu4.jpg" 
+URL_SFONDO_GIOCO = "https://st2.depositphotos.com/1954507/9938/v/950/depositphotos_99381044-stock-illustration-pink-background-with-hearts.jpg" 
 # -----------------------------------------------
 
 # 1. INIZIALIZZAZIONE DELLA MACCHINA A STATI
@@ -17,7 +16,7 @@ if 'current_index' not in st.session_state:
 
 # 2. DEFINIZIONE DEI FOGLI DI STILE (CSS DINAMICO AVANZATO)
 
-# CSS per la schermata Iniziale e Finale
+# CSS per la schermata Iniziale e Finale (Inalterato)
 css_intro = f"""
 <style>
 .stApp {{
@@ -26,7 +25,6 @@ css_intro = f"""
     background-position: center;
     background-attachment: fixed;
 }}
-/* Configurazione del blocco unico centrale ingrandito */
 [data-testid="stMarkdownContainer"] {{
     background-color: rgba(255, 255, 255, 0.90);
     padding: 40px 30px !important; 
@@ -34,8 +32,6 @@ css_intro = f"""
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     text-align: center;
 }}
-
-/* Ingrandimento dei testi all'interno del blocco Intro/End */
 [data-testid="stMarkdownContainer"] p {{
     font-size: 1.4rem !important;
     line-height: 1.6 !important;
@@ -50,8 +46,6 @@ css_intro = f"""
     font-size: 1.8rem !important;
     color: #ff66b2 !important;
 }}
-
-/* Dinamica Pulsanti Intro (Adattati alla colonna centrale) */
 div.stButton {{
     display: flex !important;
     justify-content: center !important;
@@ -86,18 +80,15 @@ div.stButton > button:active {{
 </style>
 """
 
-# CSS per la fase di Gioco
+# CSS per la fase di Gioco (Modificato per Pulsante a Cuore e non centrato)
 css_gioco = f"""
 <style>
-/* 1. Sfondo esterno */
 .stApp {{
     background-image: url("{URL_SFONDO_GIOCO}");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }}
-
-/* 2. Contenitore della domanda */
 [data-testid="stMarkdownContainer"] {{
     background-color: rgba(255, 255, 255, 0.85);
     padding: 20px;
@@ -105,8 +96,6 @@ css_gioco = f"""
     text-align: center;
     box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }}
-
-/* 3. Layout del gruppo di opzioni */
 div.stRadio > div[role="radiogroup"] {{
     display: flex;
     flex-direction: column;
@@ -114,8 +103,6 @@ div.stRadio > div[role="radiogroup"] {{
     gap: 16px; 
     margin-top: 20px;
 }}
-
-/* 4. Geometria del blocco interattivo (Card espansa) */
 div.stRadio > div[role="radiogroup"] > label {{
     background-color: #ffffff !important;
     border: 2px solid #ffb3d9 !important;
@@ -129,8 +116,6 @@ div.stRadio > div[role="radiogroup"] > label {{
     justify-content: center !important; 
     align-items: center !important; 
 }}
-
-/* 5. Override dei contenitori di testo interni per forzare la centratura */
 div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContainer"] {{
     background-color: transparent !important;
     box-shadow: none !important;
@@ -138,8 +123,6 @@ div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContaine
     width: 100% !important;
     text-align: center !important;
 }}
-
-/* 6. Formattazione tipografica */
 div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContainer"] p {{
     font-size: 1.65rem !important; 
     font-weight: 700 !important; 
@@ -147,57 +130,63 @@ div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContaine
     text-align: center !important; 
     color: #2c3e50 !important;
 }}
-
-/* 7. Rimozione fisica del pallino radio nativo */
 div.stRadio > div[role="radiogroup"] > label > div:first-child {{
     display: none !important;
 }}
-
-/* 8. Cinematica di sollevamento (Hover) */
 div.stRadio > div[role="radiogroup"] > label:hover {{
     transform: translateY(-8px) !important; 
     box-shadow: 0 12px 24px rgba(255, 179, 217, 0.6) !important;
     background-color: #fff0f5 !important;
 }}
-
-/* 9. Feedback visivo di selezione (Focus) */
 div.stRadio > div[role="radiogroup"] > label:focus-within {{
     background-color: #ffb3d9 !important;
     transform: scale(1.03) !important;
     border-color: #ff66b2 !important;
 }}
 
-/* 10. Pulsante di invio dati */
+/* PULSANTE "INVIA" A FORMA DI CUORE (NON CENTRATO) */
 div.stButton {{
-    display: flex !important;
-    justify-content: center !important;
+    display: block !important;
     width: 100% !important;
 }}
 div.stButton > button {{
-    display: block !important;
-    margin: 30px 0 10px 0 !important;
-    background-color: #ffffff !important;
-    color: #ff66b2 !important;
-    border: 2px solid #ffb3d9 !important;
-    border-radius: 15px !important;
-    padding: 15px 40px !important;
-    font-size: 1.2rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 20px 0 10px 0 !important; /* Allineamento a sinistra nativo, niente margin auto */
+    background-color: #ff66b2 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 0 !important; 
+    padding: 0 0 12px 0 !important; /* Compensa la geometria del cuore per centrare la scritta */
+    font-size: 1.4rem !important;
     font-weight: bold !important;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+    width: 130px !important;
+    height: 120px !important;
     cursor: pointer !important;
-    width: 100% !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    
+    /* Iniezione della maschera vettoriale */
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") !important;
+    -webkit-mask-size: 100% 100% !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") !important;
+    mask-size: 100% 100% !important;
+    mask-repeat: no-repeat !important;
+    mask-position: center !important;
+    
+    /* Gestione dell'ombreggiatura per oggetti mascherati */
+    filter: drop-shadow(0px 6px 8px rgba(255, 102, 178, 0.4)) !important;
 }}
 div.stButton > button:hover {{
-    transform: translateY(-8px) !important;
-    box-shadow: 0 12px 24px rgba(255, 179, 217, 0.6) !important;
-    background-color: #fff0f5 !important;
-    border-color: #ff66b2 !important;
+    transform: translateY(-5px) scale(1.05) !important;
+    background-color: #ff3399 !important;
+    filter: drop-shadow(0px 12px 15px rgba(255, 51, 153, 0.6)) !important;
 }}
 div.stButton > button:active {{
     transform: scale(0.95) !important;
-    background-color: #ffb3d9 !important;
-    color: #ffffff !important;
+    background-color: #ff007f !important;
 }}
 </style>
 """
@@ -247,7 +236,6 @@ if st.session_state.fase_sistema == 'INTRO':
         """
     )
     
-    # Implementazione griglia invisibile per centrare perfettamente il pulsante
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         if st.button("Pronta a dimostrare di essere la vera P ?"):
@@ -265,26 +253,23 @@ elif st.session_state.fase_sistema == 'PLAYING':
         
         scelta = st.radio("Seleziona la risposta:", q_data["opzioni"], index=None, label_visibility="collapsed")
         
-        # Implementazione griglia invisibile per centrare perfettamente il pulsante
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            if st.button("Invia Dati"):
-                if scelta == q_data["risposta_corretta"]:
-                    st.success("SIIIIIIIIIII")
-                    st.session_state.current_index += 1
-                    
-                    if st.session_state.current_index == len(quiz_data):
-                        st.session_state.fase_sistema = 'END'
-                    
-                    st.rerun()
-                else:
-                    st.error(q_data["messaggio_err"])
+        # Rimossa la colonna di centratura. Ora il pulsante è allineato liberamente.
+        if st.button("Invia"):
+            if scelta == q_data["risposta_corretta"]:
+                st.success("SIIIIIIIIIII")
+                st.session_state.current_index += 1
+                
+                if st.session_state.current_index == len(quiz_data):
+                    st.session_state.fase_sistema = 'END'
+                
+                st.rerun()
+            else:
+                st.error(q_data["messaggio_err"])
 
 
 elif st.session_state.fase_sistema == 'END':
     st.markdown(css_intro, unsafe_allow_html=True)
     
-    # --- GENERATORE DI PARTICELLE CUSTOM (CUORI ROSA) ---
     st.markdown("""
         <style>
         .cuore-cadente {
@@ -313,7 +298,6 @@ elif st.session_state.fase_sistema == 'END':
         <div class="cuore-cadente" style="left: 85%; font-size: 40px; animation-duration: 4.2s; animation-delay: 1.2s;">🩷</div>
         <div class="cuore-cadente" style="left: 95%; font-size: 30px; animation-duration: 5.2s; animation-delay: 0.6s;">🩷</div>
     """, unsafe_allow_html=True)
-    # -----------------------------------------------------
 
     st.markdown(
         """
@@ -332,7 +316,6 @@ elif st.session_state.fase_sistema == 'END':
         """
     )
     
-    # Implementazione griglia invisibile per centrare perfettamente il pulsante
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         if st.button("Riavvia pure P (mi ricorderò se lo fai perche hai sbagliato qualcosaaa !!!)"):
