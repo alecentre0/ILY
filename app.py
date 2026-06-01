@@ -15,24 +15,41 @@ if 'current_index' not in st.session_state:
 
 # 2. DEFINIZIONE DEI FOGLI DI STILE (CSS DINAMICO AVANZATO)
 
-# CSS per la schermata Iniziale e Finale
+# CSS per la schermata Iniziale e Finale (UNICO GRANDE BLOCCO)
 css_intro = """
 <style>
 .stApp {
     background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
 }
+/* Configurazione del blocco unico centrale ingrandito */
 [data-testid="stMarkdownContainer"] {
-    background-color: rgba(255, 255, 255, 0.85);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background-color: rgba(255, 255, 255, 0.90);
+    padding: 40px 30px !important; /* Spazio interno aumentato per ingrandire il blocco */
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     text-align: center;
 }
 
-/* Nuova Dinamica Pulsanti (Sincronizzata con le risposte) */
+/* Ingrandimento dei testi all'interno del blocco Intro/End */
+[data-testid="stMarkdownContainer"] p {
+    font-size: 1.4rem !important;
+    line-height: 1.6 !important;
+    color: #333333 !important;
+}
+[data-testid="stMarkdownContainer"] h1 {
+    font-size: 2.5rem !important;
+    color: #ff66b2 !important;
+    margin-bottom: 10px !important;
+}
+[data-testid="stMarkdownContainer"] h3 {
+    font-size: 1.8rem !important;
+    color: #ff66b2 !important;
+}
+
+/* Dinamica Pulsanti */
 div.stButton > button {
     display: block !important;
-    margin: 20px auto 0 auto !important;
+    margin: 30px auto 0 auto !important;
     background-color: #ffffff !important;
     color: #ff66b2 !important;
     border: 2px solid #ffb3d9 !important;
@@ -111,7 +128,7 @@ div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContaine
     text-align: center !important;
 }}
 
-/* 6. Formattazione tipografica (TESTO INGRANDITO) */
+/* 6. Formattazione tipografica */
 div.stRadio > div[role="radiogroup"] > label div[data-testid="stMarkdownContainer"] p {{
     font-size: 1.65rem !important; 
     font-weight: 700 !important; 
@@ -125,7 +142,7 @@ div.stRadio > div[role="radiogroup"] > label > div:first-child {{
     display: none !important;
 }}
 
-/* 8. Cinematica di sollevamento per le risposte (Hover) */
+/* 8. Cinematica di sollevamento (Hover) */
 div.stRadio > div[role="radiogroup"] > label:hover {{
     transform: translateY(-8px) !important; 
     box-shadow: 0 12px 24px rgba(255, 179, 217, 0.6) !important;
@@ -139,7 +156,7 @@ div.stRadio > div[role="radiogroup"] > label:focus-within {{
     border-color: #ff66b2 !important;
 }}
 
-/* 10. Dinamica del Pulsante di invio dati (Allineata alla logica delle risposte) */
+/* 10. Pulsante di invio dati */
 div.stButton > button {{
     display: block !important;
     margin: 30px auto 10px auto !important;
@@ -154,15 +171,12 @@ div.stButton > button {{
     box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
     cursor: pointer !important;
 }}
-
 div.stButton > button:hover {{
     transform: translateY(-8px) !important;
     box-shadow: 0 12px 24px rgba(255, 179, 217, 0.6) !important;
     background-color: #fff0f5 !important;
     border-color: #ff66b2 !important;
 }}
-
-/* Effetto di compressione durante il click effettivo */
 div.stButton > button:active {{
     transform: scale(0.95) !important;
     background-color: #ffb3d9 !important;
@@ -204,18 +218,19 @@ quiz_data = [
 if st.session_state.fase_sistema == 'INTRO':
     st.markdown(css_intro, unsafe_allow_html=True)
     
-    st.title("Test per essere la mia sola e unica P")
-    st.write("---")
+    # TUTTO IL CONTENUTO IN UN UNICO BLOCCO MARKDOWN
     st.markdown(
         """
+        # Test per essere la mia sola e unica P
+        ---
         **Attenzione:** Accesso a un'area altamente riservata ai soli P.
         
         Per sbloccare il modulo successivo è necessario dimostrare di essere una vera P. Un errore comporterà 
         il blocco del terminale fino all'inserimento del parametro corretto (E UNA BELLA SGRIDATA!!!!).
+        ---
         """
     )
     
-    st.write("---")
     if st.button("Pronta a dimostrare di essere la vera P ?"):
         st.session_state.fase_sistema = 'PLAYING'
         st.rerun()
@@ -223,6 +238,9 @@ if st.session_state.fase_sistema == 'INTRO':
 
 elif st.session_state.fase_sistema == 'PLAYING':
     st.markdown(css_gioco, unsafe_allow_html=True)
+    
+    st.title("Protocollo di Sicurezza")
+    st.write("---")
     
     if st.session_state.current_index < len(quiz_data):
         q_data = quiz_data[st.session_state.current_index]
@@ -247,23 +265,55 @@ elif st.session_state.fase_sistema == 'PLAYING':
 elif st.session_state.fase_sistema == 'END':
     st.markdown(css_intro, unsafe_allow_html=True)
     
-    st.balloons()
-    st.title("FINITOOOOO")
-    st.write("---")
-    st.write("BRAVISSIMA P HAI FATTO TUTTO GIUSTOOOO")
-    st.write("SEI LA MIA PPP TI AMO DA MORIRE TI SUPER AMOOOOO")
-    
+    # --- GENERATORE DI PARTICELLE CUSTOM (CUORI ROSSI) ---
+    st.markdown("""
+        <style>
+        .cuore-cadente {
+            position: fixed;
+            top: -10%;
+            z-index: 9999;
+            user-select: none;
+            animation-name: caduta-cuori;
+            animation-timing-function: linear;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+        @keyframes caduta-cuori {
+            0% { transform: translateY(0vh) scale(1); opacity: 1; }
+            100% { transform: translateY(110vh) scale(1.5); opacity: 0; }
+        }
+        </style>
+        <div class="cuore-cadente" style="left: 5%; font-size: 25px; animation-duration: 4s; animation-delay: 0s;">❤️</div>
+        <div class="cuore-cadente" style="left: 15%; font-size: 35px; animation-duration: 5s; animation-delay: 0.5s;">❤️</div>
+        <div class="cuore-cadente" style="left: 25%; font-size: 20px; animation-duration: 3.5s; animation-delay: 1s;">❤️</div>
+        <div class="cuore-cadente" style="left: 35%; font-size: 40px; animation-duration: 6s; animation-delay: 0.2s;">❤️</div>
+        <div class="cuore-cadente" style="left: 45%; font-size: 30px; animation-duration: 4.5s; animation-delay: 1.5s;">❤️</div>
+        <div class="cuore-cadente" style="left: 55%; font-size: 25px; animation-duration: 5.5s; animation-delay: 0.8s;">❤️</div>
+        <div class="cuore-cadente" style="left: 65%; font-size: 35px; animation-duration: 4s; animation-delay: 2s;">❤️</div>
+        <div class="cuore-cadente" style="left: 75%; font-size: 20px; animation-duration: 6.5s; animation-delay: 0.3s;">❤️</div>
+        <div class="cuore-cadente" style="left: 85%; font-size: 40px; animation-duration: 4.2s; animation-delay: 1.2s;">❤️</div>
+        <div class="cuore-cadente" style="left: 95%; font-size: 30px; animation-duration: 5.2s; animation-delay: 0.6s;">❤️</div>
+    """, unsafe_allow_html=True)
+    # -----------------------------------------------------
+
+    # TUTTO IL CONTENUTO FINALE IN UN UNICO BLOCCO MARKDOWN
     st.markdown(
         """
+        # FINITOOOOO
+        ---
+        ### BRAVISSIMA P HAI FATTO TUTTO GIUSTOOOO
+        ### SEI LA MIA PPP TI AMO DA MORIRE TI SUPER AMOOOOO
+        
         Sei l'amore della mia vita ti amo dal primo giorno ed ogni giorno sempre di più, grazie di amarmi ogni giorno, sto benissimo con te, 
         non sono mai stato cosi bene nella mia vita, ogni volta che ti penso mi si scalda il cuore e mi manchi anche se sei accanto a me, 
         non perche non mi dimostri abbastanza amore ma perche so gia che, nel momento 
         in cui ci separiamo per tornare alle nostre case LONTANISSIME, non vedrò l'ora di rivederti.
-        Amo tutto di te, sei la cosa più bella che mi sia mai successa. TI AMO AMORE MIO 
+        
+        Amo tutto di te, sei la cosa più bella che mi sia mai successa. **TI AMO AMORE MIO** ❤️
+        ---
         """
     )
     
-    st.write("---")
     if st.button("Riavvia pure P (mi ricorderò se lo fai perche hai sbagliato qualcosaaa !!!)"):
         st.session_state.fase_sistema = 'INTRO'
         st.session_state.current_index = 0
