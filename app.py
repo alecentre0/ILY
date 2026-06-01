@@ -3,8 +3,10 @@ import streamlit as st
 # Configurazione della pagina web
 st.set_page_config(page_title="Verifica Ufficiale per vedere se sei veramente la mia P", page_icon="PATA", layout="centered")
 
-# --- ZONA DI CONFIGURAZIONE IMMAGINE ESTERNA ---
-URL_SFONDO = "https://img.freepik.com/vettori-gratuito/tema-di-san-valentino-con-cuori-rosa-su-sfondo-rosa_1308-37915.jpg"
+# --- ZONA DI CONFIGURAZIONE IMMAGINI ESTERNE ---
+# Inserisci i link alle immagini. DEVONO finire in .jpg, .png o formati compatibili diretti.
+URL_SFONDO_INTRO = "https://i.etsystatic.com/20432923/r/il/7f58db/3960105404/il_570xN.3960105404_ilu4.jpg" # Sfondo per l'inizio e la fine
+URL_SFONDO_GIOCO = "https://img.freepik.com/vettori-gratuito/tema-di-san-valentino-con-cuori-rosa-su-sfondo-rosa_1308-37915.jpg" # Sfondo per le domande
 # -----------------------------------------------
 
 # 1. INIZIALIZZAZIONE DELLA MACCHINA A STATI
@@ -15,72 +17,81 @@ if 'current_index' not in st.session_state:
 
 # 2. DEFINIZIONE DEI FOGLI DI STILE (CSS DINAMICO AVANZATO)
 
-# CSS per la schermata Iniziale e Finale (UNICO GRANDE BLOCCO)
-css_intro = """
+# CSS per la schermata Iniziale e Finale (Convertito in f-string per iniettare l'immagine)
+css_intro = f"""
 <style>
-.stApp {
-    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-}
+.stApp {{
+    background-image: url("{URL_SFONDO_INTRO}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}}
 /* Configurazione del blocco unico centrale ingrandito */
-[data-testid="stMarkdownContainer"] {
+[data-testid="stMarkdownContainer"] {{
     background-color: rgba(255, 255, 255, 0.90);
-    padding: 40px 30px !important; /* Spazio interno aumentato per ingrandire il blocco */
+    padding: 40px 30px !important; 
     border-radius: 20px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     text-align: center;
-}
+}}
 
 /* Ingrandimento dei testi all'interno del blocco Intro/End */
-[data-testid="stMarkdownContainer"] p {
+[data-testid="stMarkdownContainer"] p {{
     font-size: 1.4rem !important;
     line-height: 1.6 !important;
     color: #333333 !important;
-}
-[data-testid="stMarkdownContainer"] h1 {
+}}
+[data-testid="stMarkdownContainer"] h1 {{
     font-size: 2.5rem !important;
     color: #ff66b2 !important;
     margin-bottom: 10px !important;
-}
-[data-testid="stMarkdownContainer"] h3 {
+}}
+[data-testid="stMarkdownContainer"] h3 {{
     font-size: 1.8rem !important;
     color: #ff66b2 !important;
-}
+}}
 
-/* Dinamica Pulsanti */
-div.stButton > button {
+/* Dinamica Pulsanti Intro (Più piccolo e centrato con Flexbox) */
+div.stButton {{
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+}}
+div.stButton > button {{
     display: block !important;
-    margin: 30px auto 0 auto !important;
+    margin: 20px 0 0 0 !important;
     background-color: #ffffff !important;
     color: #ff66b2 !important;
     border: 2px solid #ffb3d9 !important;
-    border-radius: 15px !important;
-    padding: 15px 40px !important;
-    font-size: 1.2rem !important;
+    border-radius: 12px !important;
+    padding: 10px 25px !important;
+    font-size: 1rem !important; 
     font-weight: bold !important;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
     cursor: pointer !important;
-}
-div.stButton > button:hover {
-    transform: translateY(-8px) !important;
-    box-shadow: 0 12px 24px rgba(255, 179, 217, 0.6) !important;
+    width: fit-content !important; 
+}}
+div.stButton > button:hover {{
+    transform: translateY(-5px) !important;
+    box-shadow: 0 8px 16px rgba(255, 179, 217, 0.6) !important;
     background-color: #fff0f5 !important;
     border-color: #ff66b2 !important;
-}
-div.stButton > button:active {
+}}
+div.stButton > button:active {{
     transform: scale(0.95) !important;
     background-color: #ffb3d9 !important;
     color: #ffffff !important;
-}
+}}
 </style>
 """
 
-# CSS per la fase di Gioco
+# CSS per la fase di Gioco (Pulsante Invia Dati mantenuto grande)
 css_gioco = f"""
 <style>
 /* 1. Sfondo esterno */
 .stApp {{
-    background-image: url("{URL_SFONDO}");
+    background-image: url("{URL_SFONDO_GIOCO}");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -156,10 +167,15 @@ div.stRadio > div[role="radiogroup"] > label:focus-within {{
     border-color: #ff66b2 !important;
 }}
 
-/* 10. Pulsante di invio dati */
+/* 10. Pulsante di invio dati (Grande) */
+div.stButton {{
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+}}
 div.stButton > button {{
     display: block !important;
-    margin: 30px auto 10px auto !important;
+    margin: 30px 0 10px 0 !important;
     background-color: #ffffff !important;
     color: #ff66b2 !important;
     border: 2px solid #ffb3d9 !important;
@@ -170,6 +186,7 @@ div.stButton > button {{
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
     cursor: pointer !important;
+    width: fit-content !important;
 }}
 div.stButton > button:hover {{
     transform: translateY(-8px) !important;
@@ -218,7 +235,6 @@ quiz_data = [
 if st.session_state.fase_sistema == 'INTRO':
     st.markdown(css_intro, unsafe_allow_html=True)
     
-    # TUTTO IL CONTENUTO IN UN UNICO BLOCCO MARKDOWN
     st.markdown(
         """
         # Test per essere la mia sola e unica P
@@ -265,7 +281,7 @@ elif st.session_state.fase_sistema == 'PLAYING':
 elif st.session_state.fase_sistema == 'END':
     st.markdown(css_intro, unsafe_allow_html=True)
     
-    # --- GENERATORE DI PARTICELLE CUSTOM (CUORI ROSSI) ---
+    # --- GENERATORE DI PARTICELLE CUSTOM (CUORI ROSA) ---
     st.markdown("""
         <style>
         .cuore-cadente {
@@ -283,20 +299,19 @@ elif st.session_state.fase_sistema == 'END':
             100% { transform: translateY(110vh) scale(1.5); opacity: 0; }
         }
         </style>
-        <div class="cuore-cadente" style="left: 5%; font-size: 25px; animation-duration: 4s; animation-delay: 0s;">❤️</div>
-        <div class="cuore-cadente" style="left: 15%; font-size: 35px; animation-duration: 5s; animation-delay: 0.5s;">❤️</div>
-        <div class="cuore-cadente" style="left: 25%; font-size: 20px; animation-duration: 3.5s; animation-delay: 1s;">❤️</div>
-        <div class="cuore-cadente" style="left: 35%; font-size: 40px; animation-duration: 6s; animation-delay: 0.2s;">❤️</div>
-        <div class="cuore-cadente" style="left: 45%; font-size: 30px; animation-duration: 4.5s; animation-delay: 1.5s;">❤️</div>
-        <div class="cuore-cadente" style="left: 55%; font-size: 25px; animation-duration: 5.5s; animation-delay: 0.8s;">❤️</div>
-        <div class="cuore-cadente" style="left: 65%; font-size: 35px; animation-duration: 4s; animation-delay: 2s;">❤️</div>
-        <div class="cuore-cadente" style="left: 75%; font-size: 20px; animation-duration: 6.5s; animation-delay: 0.3s;">❤️</div>
-        <div class="cuore-cadente" style="left: 85%; font-size: 40px; animation-duration: 4.2s; animation-delay: 1.2s;">❤️</div>
-        <div class="cuore-cadente" style="left: 95%; font-size: 30px; animation-duration: 5.2s; animation-delay: 0.6s;">❤️</div>
+        <div class="cuore-cadente" style="left: 5%; font-size: 25px; animation-duration: 4s; animation-delay: 0s;">🩷</div>
+        <div class="cuore-cadente" style="left: 15%; font-size: 35px; animation-duration: 5s; animation-delay: 0.5s;">🩷</div>
+        <div class="cuore-cadente" style="left: 25%; font-size: 20px; animation-duration: 3.5s; animation-delay: 1s;">🩷</div>
+        <div class="cuore-cadente" style="left: 35%; font-size: 40px; animation-duration: 6s; animation-delay: 0.2s;">🩷</div>
+        <div class="cuore-cadente" style="left: 45%; font-size: 30px; animation-duration: 4.5s; animation-delay: 1.5s;">🩷</div>
+        <div class="cuore-cadente" style="left: 55%; font-size: 25px; animation-duration: 5.5s; animation-delay: 0.8s;">🩷</div>
+        <div class="cuore-cadente" style="left: 65%; font-size: 35px; animation-duration: 4s; animation-delay: 2s;">🩷</div>
+        <div class="cuore-cadente" style="left: 75%; font-size: 20px; animation-duration: 6.5s; animation-delay: 0.3s;">🩷</div>
+        <div class="cuore-cadente" style="left: 85%; font-size: 40px; animation-duration: 4.2s; animation-delay: 1.2s;">🩷</div>
+        <div class="cuore-cadente" style="left: 95%; font-size: 30px; animation-duration: 5.2s; animation-delay: 0.6s;">🩷</div>
     """, unsafe_allow_html=True)
     # -----------------------------------------------------
 
-    # TUTTO IL CONTENUTO FINALE IN UN UNICO BLOCCO MARKDOWN
     st.markdown(
         """
         # FINITOOOOO
@@ -309,7 +324,7 @@ elif st.session_state.fase_sistema == 'END':
         non perche non mi dimostri abbastanza amore ma perche so gia che, nel momento 
         in cui ci separiamo per tornare alle nostre case LONTANISSIME, non vedrò l'ora di rivederti.
         
-        Amo tutto di te, sei la cosa più bella che mi sia mai successa. **TI AMO AMORE MIO** ❤️
+        Amo tutto di te, sei la cosa più bella che mi sia mai successa. **TI AMO AMORE MIO** 🩷
         ---
         """
     )
