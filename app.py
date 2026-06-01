@@ -254,10 +254,7 @@ if st.session_state.fase_sistema == 'INTRO':
 
 elif st.session_state.fase_sistema == 'PLAYING':
     st.markdown(css_gioco, unsafe_allow_html=True)
-    
-    st.title("Protocollo di Sicurezza")
-    st.write("---")
-    
+
     if st.session_state.current_index < len(quiz_data):
         q_data = quiz_data[st.session_state.current_index]
         
