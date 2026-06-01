@@ -64,7 +64,7 @@ div.stButton > button {{
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
     cursor: pointer !important;
-    width: 100% !important; 
+    width: fit-content !important; 
 }}
 div.stButton > button:hover {{
     transform: translateY(-5px) !important;
@@ -80,7 +80,7 @@ div.stButton > button:active {{
 </style>
 """
 
-# CSS per la fase di Gioco (Modificato per Pulsante a Cuore e non centrato)
+# CSS per la fase di Gioco
 css_gioco = f"""
 <style>
 .stApp {{
@@ -144,27 +144,39 @@ div.stRadio > div[role="radiogroup"] > label:focus-within {{
     border-color: #ff66b2 !important;
 }}
 
-/* PULSANTE "INVIA" A FORMA DI CUORE (NON CENTRATO) */
+/* PULSANTE "INVIA" A FORMA DI CUORE (NON CENTRATO E SENZA QUADRATI NATIIVI) */
 div.stButton {{
     display: block !important;
     width: 100% !important;
+    background-color: transparent !important;
 }}
+
+/* Rimozione forzata degli stili da eventuali elementi annidati */
+div.stButton > button * {{
+    background-color: transparent !important;
+    box-shadow: none !important;
+}}
+
 div.stButton > button {{
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    margin: 20px 0 10px 0 !important; /* Allineamento a sinistra nativo, niente margin auto */
+    margin: 20px 0 10px 0 !important; 
     background-color: #ff66b2 !important;
     color: #ffffff !important;
-    border: none !important;
-    border-radius: 0 !important; 
-    padding: 0 0 12px 0 !important; /* Compensa la geometria del cuore per centrare la scritta */
     font-size: 1.4rem !important;
     font-weight: bold !important;
     width: 130px !important;
     height: 120px !important;
     cursor: pointer !important;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    
+    /* Azzeramento rigoroso del quadrato di base */
+    border: none !important;
+    border-radius: 0 !important; 
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 0 12px 0 !important;
     
     /* Iniezione della maschera vettoriale */
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") !important;
@@ -176,17 +188,25 @@ div.stButton > button {{
     mask-repeat: no-repeat !important;
     mask-position: center !important;
     
-    /* Gestione dell'ombreggiatura per oggetti mascherati */
+    /* Ombreggiatura adattata al poligono */
     filter: drop-shadow(0px 6px 8px rgba(255, 102, 178, 0.4)) !important;
 }}
+
+/* Disattivazione del rettangolo di selezione al click */
+div.stButton > button:focus,
+div.stButton > button:active {{
+    box-shadow: none !important;
+    outline: none !important;
+    border: none !important;
+    background-color: #ff007f !important;
+    color: #ffffff !important;
+}}
+
 div.stButton > button:hover {{
     transform: translateY(-5px) scale(1.05) !important;
     background-color: #ff3399 !important;
+    box-shadow: none !important; /* Previene il ritorno dell'ombra quadrata */
     filter: drop-shadow(0px 12px 15px rgba(255, 51, 153, 0.6)) !important;
-}}
-div.stButton > button:active {{
-    transform: scale(0.95) !important;
-    background-color: #ff007f !important;
 }}
 </style>
 """
@@ -253,7 +273,7 @@ elif st.session_state.fase_sistema == 'PLAYING':
         
         scelta = st.radio("Seleziona la risposta:", q_data["opzioni"], index=None, label_visibility="collapsed")
         
-        # Rimossa la colonna di centratura. Ora il pulsante è allineato liberamente.
+        # Pulsante INVIA (ora è a forma di cuore puro)
         if st.button("Invia"):
             if scelta == q_data["risposta_corretta"]:
                 st.success("SIIIIIIIIIII")
